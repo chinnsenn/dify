@@ -107,7 +107,7 @@ class AgentChatAppGenerator(MessageBasedAppGenerator):
         application_generate_entity = AgentChatAppGenerateEntity(
             task_id=str(uuid.uuid4()),
             app_config=app_config,
-            model_config=ModelConfigConverter.convert(app_config),
+            model_conf=ModelConfigConverter.convert(app_config),
             conversation_id=conversation.id if conversation else None,
             inputs=conversation.inputs if conversation else self._get_cleaned_inputs(inputs, app_config),
             query=query,
@@ -115,7 +115,8 @@ class AgentChatAppGenerator(MessageBasedAppGenerator):
             user_id=user.id,
             stream=stream,
             invoke_from=invoke_from,
-            extras=extras
+            extras=extras,
+            call_depth=0
         )
 
         # init generate records
