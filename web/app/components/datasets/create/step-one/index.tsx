@@ -1,7 +1,6 @@
 'use client'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import cn from 'classnames'
 import FilePreview from '../file-preview'
 import FileUploader from '../file-uploader'
 import NotionPagePreview from '../notion-page-preview'
@@ -9,6 +8,7 @@ import EmptyDatasetCreationModal from '../empty-dataset-creation-modal'
 import Website from '../website'
 import WebsitePreview from '../website/preview'
 import s from './index.module.css'
+import cn from '@/utils/classnames'
 import type { CrawlOptions, CrawlResultItem, FileItem } from '@/models/datasets'
 import type { NotionPage } from '@/models/common'
 import { DataSourceType } from '@/models/datasets'
@@ -49,7 +49,7 @@ export const NotionConnector = ({ onSetting }: NotionConnectorProps) => {
       <span className={s.notionIcon} />
       <div className={s.title}>{t('datasetCreation.stepOne.notionSyncTitle')}</div>
       <div className={s.tip}>{t('datasetCreation.stepOne.notionSyncTip')}</div>
-      <Button className='h-8' type='primary' onClick={onSetting}>{t('datasetCreation.stepOne.connect')}</Button>
+      <Button className='h-8' variant='primary' onClick={onSetting}>{t('datasetCreation.stepOne.connect')}</Button>
     </div>
   )
 }
@@ -197,7 +197,7 @@ const StepOne = ({
                   <VectorSpaceFull />
                 </div>
               )}
-              <Button disabled={nextDisabled} className={s.submitButton} type='primary' onClick={onStepChange}>{t('datasetCreation.stepOne.button')}</Button>
+              <Button disabled={nextDisabled} className={s.submitButton} variant='primary' onClick={onStepChange}>{t('datasetCreation.stepOne.button')}</Button>
             </>
           )}
           {dataSourceType === DataSourceType.NOTION && (
@@ -217,7 +217,7 @@ const StepOne = ({
                       <VectorSpaceFull />
                     </div>
                   )}
-                  <Button disabled={isShowVectorSpaceFull || !notionPages.length} className={s.submitButton} type='primary' onClick={onStepChange}>{t('datasetCreation.stepOne.button')}</Button>
+                  <Button disabled={isShowVectorSpaceFull || !notionPages.length} className={s.submitButton} variant='primary' onClick={onStepChange}>{t('datasetCreation.stepOne.button')}</Button>
                 </>
               )}
             </>
@@ -239,7 +239,7 @@ const StepOne = ({
                   <VectorSpaceFull />
                 </div>
               )}
-              <Button disabled={isShowVectorSpaceFull || !websitePages.length} className={s.submitButton} type='primary' onClick={onStepChange}>{t('datasetCreation.stepOne.button')}</Button>
+              <Button disabled={isShowVectorSpaceFull || !websitePages.length} className={s.submitButton} variant='primary' onClick={onStepChange}>{t('datasetCreation.stepOne.button')}</Button>
             </>
           )}
           {!datasetId && (

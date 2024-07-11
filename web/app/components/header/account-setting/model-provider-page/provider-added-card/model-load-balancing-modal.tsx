@@ -1,6 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import classNames from 'classnames'
 import useSWR from 'swr'
 import type { ModelItem, ModelLoadBalancingConfig, ModelLoadBalancingConfigEntry, ModelProvider } from '../declarations'
 import { FormTypeEnum } from '../declarations'
@@ -8,6 +7,7 @@ import ModelIcon from '../model-icon'
 import ModelName from '../model-name'
 import { savePredefinedLoadBalancingConfig } from '../utils'
 import ModelLoadBalancingConfigs from './model-load-balancing-configs'
+import classNames from '@/utils/classnames'
 import Modal from '@/app/components/base/modal'
 import Button from '@/app/components/base/button'
 import { fetchModelLoadBalancingConfig } from '@/service/common'
@@ -171,7 +171,7 @@ const ModelLoadBalancingModal = ({ provider, model, open = false, onClose, onSav
             <div className='flex items-center justify-end gap-2 mt-6'>
               <Button onClick={onClose}>{t('common.operation.cancel')}</Button>
               <Button
-                type='primary'
+                variant='primary'
                 onClick={handleSave}
                 disabled={
                   loading

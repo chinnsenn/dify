@@ -3,18 +3,18 @@ import type { FC } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { PlusIcon } from '@heroicons/react/24/solid'
-import cn from 'classnames'
 import type { ConfigItemType } from './config-item'
 import ConfigItem from './config-item'
 
 import s from './style.module.css'
 import { DataSourceType } from './types'
+import cn from '@/utils/classnames'
 
 type Props = {
   type: DataSourceType
   isConfigured: boolean
   onConfigure: () => void
-  readonly: boolean
+  readOnly: boolean
   isSupportList?: boolean
   configuredList: ConfigItemType[]
   onRemove: () => void
@@ -27,7 +27,7 @@ const Panel: FC<Props> = ({
   type,
   isConfigured,
   onConfigure,
-  readonly,
+  readOnly,
   configuredList,
   isSupportList,
   onRemove,
@@ -46,7 +46,7 @@ const Panel: FC<Props> = ({
             <div className='text-sm font-medium text-gray-800'>{t(`common.dataSource.${type}.title`)}</div>
             {isWebsite && (
               <div className='ml-1 leading-[18px] px-1.5 rounded-md bg-white border border-gray-100 text-xs font-medium text-gray-700'>
-                <span className='text-gray-500'>{t('common.dataSource.website.with')}</span> 🔥 FireCrawl
+                <span className='text-gray-500'>{t('common.dataSource.website.with')}</span> 🔥 Firecrawl
               </div>
             )}
           </div>
@@ -67,7 +67,7 @@ const Panel: FC<Props> = ({
                     className={
                       `flex items-center ml-3 px-3 h-7 bg-white border border-gray-200
                   rounded-md text-xs font-medium text-gray-700
-                  ${!readonly ? 'cursor-pointer' : 'grayscale opacity-50 cursor-default'}`
+                  ${!readOnly ? 'cursor-pointer' : 'grayscale opacity-50 cursor-default'}`
                     }
                     onClick={onConfigure}
                   >
@@ -79,7 +79,7 @@ const Panel: FC<Props> = ({
                     {isSupportList && <div
                       className={
                         `flex items-center px-3 py-1 min-h-7 bg-white border-[0.5px] border-gray-200 text-xs font-medium text-primary-600 rounded-md
-                  ${!readonly ? 'cursor-pointer' : 'grayscale opacity-50 cursor-default'}`
+                  ${!readOnly ? 'cursor-pointer' : 'grayscale opacity-50 cursor-default'}`
                       }
                       onClick={onConfigure}
                     >
@@ -96,10 +96,10 @@ const Panel: FC<Props> = ({
           <div
             className={
               `flex items-center ml-3 px-3 h-7 bg-white border border-gray-200
-        rounded-md text-xs font-medium text-gray-700
-        ${!readonly ? 'cursor-pointer' : 'grayscale opacity-50 cursor-default'}`
+              rounded-md text-xs font-medium text-gray-700
+              ${!readOnly ? 'cursor-pointer' : 'grayscale opacity-50 cursor-default'}`
             }
-            onClick={onConfigure}
+            onClick={!readOnly ? onConfigure : undefined}
           >
             {t('common.dataSource.configure')}
           </div>
@@ -108,28 +108,28 @@ const Panel: FC<Props> = ({
       </div>
       {
         isConfigured && (
-          <div className='flex items-center px-3 h-[18px]'>
-            <div className='text-xs font-medium text-gray-500'>
-              {isNotion ? t('common.dataSource.notion.connectedWorkspace') : t('common.dataSource.website.configuredCrawlers')}
+          <>
+            <div className='flex items-center px-3 h-[18px]'>
+              <div className='text-xs font-medium text-gray-500'>
+                {isNotion ? t('common.dataSource.notion.connectedWorkspace') : t('common.dataSource.website.configuredCrawlers')}
+              </div>
+              <div className='grow ml-3 border-t border-t-gray-100' />
             </div>
-            <div className='grow ml-3 border-t border-t-gray-100' />
-          </div>
-        )
-      }
-      {
-        isConfigured && (
-          <div className='px-3 pt-2 pb-3'>
-            {
-              configuredList.map(item => (
-                <ConfigItem
-                  key={item.id}
-                  type={type}
-                  payload={item}
-                  onRemove={onRemove}
-                  notionActions={notionActions} />
-              ))
-            }
-          </div>
+            <div className='px-3 pt-2 pb-3'>
+              {
+                configuredList.map(item => (
+                  <ConfigItem
+                    key={item.id}
+                    type={type}
+                    payload={item}
+                    onRemove={onRemove}
+                    notionActions={notionActions}
+                    readOnly={readOnly}
+                  />
+                ))
+              }
+            </div>
+          </>
         )
       }
     </div>

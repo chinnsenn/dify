@@ -57,6 +57,9 @@ class Vector:
             case VectorType.MILVUS:
                 from core.rag.datasource.vdb.milvus.milvus_vector import MilvusVectorFactory
                 return MilvusVectorFactory
+            case VectorType.MYSCALE:
+                from core.rag.datasource.vdb.myscale.myscale_vector import MyScaleVectorFactory
+                return MyScaleVectorFactory
             case VectorType.PGVECTOR:
                 from core.rag.datasource.vdb.pgvector.pgvector import PGVectorFactory
                 return PGVectorFactory
@@ -78,6 +81,15 @@ class Vector:
             case VectorType.TENCENT:
                 from core.rag.datasource.vdb.tencent.tencent_vector import TencentVectorFactory
                 return TencentVectorFactory
+            case VectorType.ORACLE:
+                from core.rag.datasource.vdb.oracle.oraclevector import OracleVectorFactory
+                return OracleVectorFactory
+            case VectorType.OPENSEARCH:
+                from core.rag.datasource.vdb.opensearch.opensearch_vector import OpenSearchVectorFactory
+                return OpenSearchVectorFactory
+            case VectorType.ANALYTICDB:
+                from core.rag.datasource.vdb.analyticdb.analyticdb_vector import AnalyticdbVectorFactory
+                return AnalyticdbVectorFactory
             case _:
                 raise ValueError(f"Vector store {vector_type} is not supported.")
 
