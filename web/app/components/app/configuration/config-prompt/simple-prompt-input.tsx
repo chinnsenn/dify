@@ -40,6 +40,7 @@ export type ISimplePromptInput = {
   noTitle?: boolean
   gradientBorder?: boolean
   editorHeight?: number
+  noResize?: boolean
 }
 
 const Prompt: FC<ISimplePromptInput> = ({
@@ -51,6 +52,7 @@ const Prompt: FC<ISimplePromptInput> = ({
   noTitle,
   gradientBorder,
   editorHeight: initEditorHeight,
+  noResize,
 }) => {
   const { t } = useTranslation()
   const media = useBreakpoints()
@@ -150,7 +152,7 @@ const Prompt: FC<ISimplePromptInput> = ({
     <div className={cn((!readonly || gradientBorder) ? `${s.gradientBorder}` : 'bg-gray-50', ' relative shadow-md')}>
       <div className='rounded-xl bg-[#EEF4FF]'>
         {!noTitle && (
-          <div className="flex justify-between items-center h-11 px-3">
+          <div className="flex justify-between items-center h-11 pl-3 pr-6">
             <div className="flex items-center space-x-1">
               <div className='h2'>{mode !== AppType.completion ? t('appDebug.chatSubTitle') : t('appDebug.completionSubTitle')}</div>
               {!readonly && (
@@ -176,6 +178,7 @@ const Prompt: FC<ISimplePromptInput> = ({
           height={editorHeight}
           minHeight={minHeight}
           onHeightChange={setEditorHeight}
+          hideResize={noResize}
           footer={(
             <div className='pl-4 pb-2 flex bg-white rounded-b-xl'>
               <div className="h-[18px] leading-[18px] px-1 rounded-md bg-gray-100 text-xs text-gray-500">{promptTemplate.length}</div>
