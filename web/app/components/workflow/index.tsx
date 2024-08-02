@@ -194,6 +194,10 @@ const Workflow: FC<WorkflowProps> = memo(({
       e.preventDefault()
     if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey))
       e.preventDefault()
+    if ((e.key === 'y' || e.key === 'Y') && (e.ctrlKey || e.metaKey))
+      e.preventDefault()
+    if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey))
+      e.preventDefault()
   })
   useEventListener('mousemove', (e) => {
     const containerClientRect = workflowContainerRef.current?.getBoundingClientRect()
@@ -248,6 +252,7 @@ const Workflow: FC<WorkflowProps> = memo(({
   } = useWorkflow()
   const { handleStartWorkflowRun } = useWorkflowStartRun()
   const {
+    exportCheck,
     handleExportDSL,
   } = useDSL()
 
@@ -259,7 +264,7 @@ const Workflow: FC<WorkflowProps> = memo(({
 
   const { shortcutsEnabled: workflowHistoryShortcutsEnabled } = useWorkflowHistoryStore()
 
-  useKeyPress('delete', handleNodesDelete)
+  useKeyPress(['delete', 'backspace'], handleNodesDelete)
   useKeyPress(['delete', 'backspace'], handleEdgeDelete)
   useKeyPress(`${getKeyboardKeyCodeBySystem('ctrl')}.c`, (e) => {
     if (isEventTargetInputArea(e.target as HTMLElement))
@@ -309,7 +314,7 @@ const Workflow: FC<WorkflowProps> = memo(({
     >
       <SyncingDataModal />
       <CandidateNode />
-      <Header/>
+      <Header />
       <Panel />
       <Operator handleRedo={handleHistoryForward} handleUndo={handleHistoryBack} />
       {
@@ -334,7 +339,7 @@ const Workflow: FC<WorkflowProps> = memo(({
         showImportDSLModal && (
           <UpdateDSLModal
             onCancel={() => setShowImportDSLModal(false)}
-            onBackup={handleExportDSL}
+            onBackup={exportCheck}
             onImport={handlePaneContextmenuCancel}
           />
         )
