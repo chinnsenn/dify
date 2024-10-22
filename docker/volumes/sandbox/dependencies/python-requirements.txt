@@ -1,0 +1,3 @@
+tiktoken~=0.7.0
+langchain_text_splitters
+openai
