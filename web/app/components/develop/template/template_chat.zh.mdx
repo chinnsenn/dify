@@ -543,7 +543,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty } from '../md.tsx'
     - `data` (array[object])  消息列表
     - `id`  (string) 消息 ID
     - `conversation_id` (string)  会话 ID
-    - `inputs` (array[object]) 用户输入参数。
+    - `inputs` (object) 用户输入参数。
     - `query`  (string) 用户输入 / 提问内容。
     - `message_files` (array[object]) 消息文件
       - `id` (string) ID
@@ -713,7 +713,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty } from '../md.tsx'
     - `data` (array[object]) 会话列表
       - `id`  (string) 会话 ID
       - `name`  (string) 会话名称，默认为会话中用户最开始问题的截取。
-      - `inputs` (array[object]) 用户输入参数。
+      - `inputs` (object) 用户输入参数。
       - `status` (string) 会话状态
       - `introduction` (string) 开场白
       - `created_at` (timestamp) 创建时间
@@ -844,7 +844,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty } from '../md.tsx'
     ### Response
     - `id`  (string) 会话 ID
     - `name`  (string) 会话名称
-    - `inputs` array[object] 用户输入参数
+    - `inputs` (object) 用户输入参数
     - `status` (string) 会话状态
     - `introduction` (string) 开场白
     - `created_at` (timestamp) 创建时间
@@ -978,13 +978,57 @@ import { Row, Col, Properties, Property, Heading, SubProperty } from '../md.tsx'
     </CodeGroup>
   </Col>
 </Row>
+---
+
+<Heading
+  url='/info'
+  method='GET'
+  title='获取应用基本信息'
+  name='#info'
+/>
+<Row>
+  <Col>
+  用于获取应用的基本信息
+  ### Query
+    <Properties>
+
+   <Property name='user' type='string' key='user'>
+      用户标识，由开发者定义规则，需保证用户标识在应用内唯一。
+    </Property>
+      </Properties>
+  ### Response
+  - `name` (string) 应用名称
+  - `description` (string) 应用描述
+  - `tags` (array[string]) 应用标签
+  </Col>
+  <Col>
+    <CodeGroup title="Request" tag="GET" label="/info" targetCode={`curl -X GET '${props.appDetail.api_base_url}/info?user=abc-123' \\\n-H 'Authorization: Bearer {api_key}'`}>
+      ```bash {{ title: 'cURL' }}
+      curl -X GET '${props.appDetail.api_base_url}/info?user=abc-123' \
+      -H 'Authorization: Bearer {api_key}'
+      ```
+    </CodeGroup>
+    <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "name": "My App",
+      "description": "This is my app.",
+      "tags": [
+        "tag1",
+        "tag2"
+      ]
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
 
 ---
 
 <Heading
   url='/parameters'
   method='GET'
-  title='获取应用配置信息'
+  title='获取应用参数'
   name='#parameters'
 />
 <Row>
