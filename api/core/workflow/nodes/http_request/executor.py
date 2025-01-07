@@ -37,7 +37,22 @@ BODY_TYPE_TO_CONTENT_TYPE = {
 
 
 class Executor:
-    method: Literal["get", "head", "post", "put", "delete", "patch"]
+    method: Literal[
+        "get",
+        "head",
+        "post",
+        "put",
+        "delete",
+        "patch",
+        "options",
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "HEAD",
+        "OPTIONS",
+    ]
     url: str
     params: list[tuple[str, str]] | None
     content: str | bytes | None
@@ -158,7 +173,10 @@ class Executor:
                     if len(data) != 1:
                         raise RequestBodyError("json body type should have exactly one item")
                     json_string = self.variable_pool.convert_template(data[0].value).text
-                    json_object = json.loads(json_string, strict=False)
+                    try:
+                        json_object = json.loads(json_string, strict=False)
+                    except json.JSONDecodeError as e:
+                        raise RequestBodyError(f"Failed to parse JSON: {json_string}") from e
                     self.json = json_object
                     # self.json = self._parse_object_contains_variables(json_object)
                 case "binary":
@@ -246,7 +264,22 @@ class Executor:
         """
         do http request depending on api bundle
         """
-        if self.method not in {"get", "head", "post", "put", "delete", "patch"}:
+        if self.method not in {
+            "get",
+            "head",
+            "post",
+            "put",
+            "delete",
+            "patch",
+            "options",
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "HEAD",
+            "OPTIONS",
+        }:
             raise InvalidHttpMethodError(f"Invalid http method {self.method}")
 
         request_args = {
@@ -263,7 +296,7 @@ class Executor:
         }
         # request_args = {k: v for k, v in request_args.items() if v is not None}
         try:
-            response = getattr(ssrf_proxy, self.method)(**request_args)
+            response = getattr(ssrf_proxy, self.method.lower())(**request_args)
         except (ssrf_proxy.MaxRetriesExceededError, httpx.RequestError) as e:
             raise HttpRequestNodeError(str(e))
         # FIXME: fix type ignore, this maybe httpx type issue
